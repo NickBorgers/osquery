@@ -26,15 +26,15 @@ git clone https://github.com/osquery/osquery
 cd osquery
 
 # Setup your host by installing dependencies
-make setup
+make setup.host
 
 # Setup cmake
-make cmake
+make setup.cmake
 
 # Proceed with building osquery
 make build
 
-# To run any cmake commands, such as to run test directly, you will want to cd into the build directory
+# To run any cmake commands, such as to run tests directly, you will want to cd into the build directory
 cd build/
 ```
 
