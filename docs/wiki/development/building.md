@@ -28,8 +28,14 @@ cd osquery
 # Setup your host by installing dependencies
 make setup
 
+# Setup cmake
+make cmake
+
 # Proceed with building osquery
 make build
+
+# To run any cmake commands, such as to run test directly, you will want to cd into the build directory
+cd build/
 ```
 
 ## macOS
