@@ -5,7 +5,7 @@ THREAD_COUNT=$(shell echo "$(shell nproc --all)*.8/1" | bc)
 help:
 	@grep -E '[a-zA-Z\.\-]+:.*?@ .*$$' $(MAKEFILE_LIST)| tr -d '#'  | awk 'BEGIN {FS = ":.*?@ "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-#test.all:	@ Run all tests
+#test.all: @ Run all tests
 test.all:
 	cd build; cmake --build . --target test
 
@@ -21,12 +21,19 @@ test.specific:
 test.specific.filtered: 
 	cd build; GTEST_FILTER=${FILTER} ctest -R ${TEST} -V
 
-#setup: @ Setup this host, typically a container. In a Devcontainer this was done for you already
-setup:
+#check: @ Run cppcheck 
+check:
+	cd build; cmake --build . --target cppcheck
+
+#setup.all: @ Perform all setup actions required before building osquery
+setup.all: setup.host setup.cmake
+
+#setup.host: @ Setup this host, typically a container. In a Devcontainer this was done for you already
+setup.host:
 	.devcontainer/host_setup.sh
 
-#cmake: @ Run cmake to prepare for build. In a Devcontainer this was done for you already
-cmake:
+#setup.cmake: @ Run cmake to prepare for build. In a Devcontainer this was done for you already
+setup.cmake:
 	mkdir -p build
 	cd build; cmake -DOSQUERY_BUILD_TESTS=ON -DOSQUERY_TOOLCHAIN_SYSROOT=/usr/local/osquery-toolchain ..
 
