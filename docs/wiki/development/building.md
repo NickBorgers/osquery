@@ -20,35 +20,22 @@ Note: the recommended system memory for building osquery is at least 8GB, or Cla
 
 The initial directory is assumed to be `/home/<user>`.
 
-```bash
-# Install the prerequisites
-sudo apt install --no-install-recommends git python3 bison flex make
-
-# Optional: install python tests prerequisites
-sudo apt install --no-install-recommends python3-pip python3-setuptools python3-psutil python3-six python3-wheel
-pip3 install timeout_decorator thrift==0.11.0 osquery pexpect==3.3
-
-# Optional: install RPM packaging prerequisites
-sudo apt install --no-install-recommends rpm binutils
-
-# Download and install the osquery toolchain
-export ARCH=$(uname -m) # There is toolchain support for x86_64 and aarch64.
-wget https://github.com/osquery/osquery-toolchain/releases/download/1.1.0/osquery-toolchain-1.1.0-${ARCH}.tar.xz
-sudo tar xvf osquery-toolchain-1.1.0-${ARCH}.tar.xz -C /usr/local
-
-# Download and install a newer CMake.
-# Afterward, verify that `/usr/local/bin` is in the `PATH` and comes before `/usr/bin`.
-wget https://cmake.org/files/v3.21/cmake-3.21.4-linux-${ARCH}.tar.gz
-sudo tar xvf cmake-3.21.4-linux-${ARCH}.tar.gz -C /usr/local --strip 1
-
+```bash 
 # Download source
 git clone https://github.com/osquery/osquery
 cd osquery
 
-# Build osquery
-mkdir build; cd build
-cmake -DOSQUERY_TOOLCHAIN_SYSROOT=/usr/local/osquery-toolchain ..
-cmake --build . -j10 # where 10 is the number of parallel build jobs
+# Setup your host by installing dependencies
+make setup.host
+
+# Setup cmake
+make setup.cmake
+
+# Proceed with building osquery
+make build
+
+# To run any cmake commands, such as to run tests directly, you will want to cd into the build directory
+cd build/
 ```
 
 ## macOS
@@ -154,6 +141,8 @@ cmake --build . --config RelWithDebInfo -j10 # Number of projects to build in pa
 ## Testing
 
 To build with tests active, add `-DOSQUERY_BUILD_TESTS=ON` to the osquery configure phase, then build the project. CTest will be used to run the tests and give a report.
+
+Commands in this section assume your working directory is the `build/` directory inside the osquery repository, and you have already built osquery.
 
 ### Run tests on Windows
 
