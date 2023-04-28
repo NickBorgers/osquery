@@ -10,7 +10,7 @@ sudo apt install -y --no-install-recommends wget sudo xz-utils nano bc git pytho
 
 # Optional: install python tests prerequisites
 sudo apt install -y --no-install-recommends python3-pip python3-setuptools python3-psutil python3-six python3-wheel
-pip3 install timeout_decorator thrift==0.11.0 osquery pexpect==3.3
+pip3 install timeout_decorator thrift==0.11.0 osquery pexpect==3.3 docker
 
 # Optional: install RPM packaging prerequisites
 sudo apt install -y --no-install-recommends rpm binutils
